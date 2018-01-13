@@ -1,4 +1,4 @@
-This repository maintains the baseline and baseline with 1 vritual channel routers from Bonfire project. You can find the Bonfire project here:
+This repository maintains the baseline and baseline with 1 vritual channel credit-based routers from Bonfire project. You can find the Bonfire project here:
 
 https://github.com/Project-Bonfire/Bonfire
 
