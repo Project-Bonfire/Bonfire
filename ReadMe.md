@@ -1,6 +1,6 @@
 This repository maintains the baseline and baseline with 1 vritual channel routers from Bonfire project. You can find the Bonfire project here:
 
-https://github.com/Project-Bonfire
+https://github.com/Project-Bonfire/Bonfire
 
 ----------
 - The size of the network can be X.Y where X and Y are integers in [2, 127].
