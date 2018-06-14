@@ -147,7 +147,7 @@ package body TB_Package is
 
           if (data_read(DATA_WIDTH-1 downto DATA_WIDTH-3) = "001") then -- got header flit
               receive_destination_node := to_integer(unsigned(data_read(14 downto 8)))* network_x+to_integer(unsigned(data_read(7 downto 1)));
-              receive_source_node :=to_integer(unsigned(data_read(21 downto 15)))* network_x+to_integer(unsigned(data_read(21 downto 15)));
+              receive_source_node :=to_integer(unsigned(data_read(28 downto 22)))* network_x+to_integer(unsigned(data_read(21 downto 15)));
               receive_counter := 1;
           end if;
 
