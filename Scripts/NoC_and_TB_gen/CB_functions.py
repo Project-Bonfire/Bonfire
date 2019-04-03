@@ -1,6 +1,5 @@
 # Copyright (C) 2016 Siavoosh Payandeh Azad, Behrad Niazmand
 
-
 def rxy_rst_calculator(node_id):
     # For now we assume XY routing
     rxy_rst = 60

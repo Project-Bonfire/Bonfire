@@ -1,7 +1,10 @@
 
-import file_lists
-from Scripts.include.package import *
 from math import ceil
+
+from Scripts.include.package import *
+
+from . import file_lists
+
 
 def include_cmd(path):
     if path.endswith(('.vhd', '.vhdl')):

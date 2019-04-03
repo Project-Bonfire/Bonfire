@@ -1,7 +1,9 @@
-from helper_func import *
-from package import *
-import sys
 import os
+import sys
+
+from .helper_func import *
+from .package import *
+
 
 def gen_network_and_tb(program_argv, flow_control_type):
     """

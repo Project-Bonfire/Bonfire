@@ -4,7 +4,7 @@ import os
 Print a colored message
 '''
 
-#Check_dir return values
+# Check_dir return values
 CHECK_DIR_ERROR = -1
 DIR_EXISTS = 0
 DIR_NOT_EXISTS = 1
@@ -38,20 +38,19 @@ def print_msg(message_severity, message_content):
     '''
 
     if message_severity == MSG_INFO:
-        print BOLD + "INFO: " + ENDC + message_content
+        print(BOLD + "INFO: " + ENDC + message_content)
 
     if message_severity == MSG_WARN:
-        print BOLD + WARNING + "WARNING: " + ENDC + message_content
+        print(BOLD + WARNING + "WARNING: " + ENDC + message_content)
 
     if message_severity == MSG_ERROR:
-        print BOLD + FAIL + "ERROR: " + ENDC + message_content
+        print(BOLD + FAIL + "ERROR: " + ENDC + message_content)
 
     if message_severity == MSG_BLUE_INFO:
-        print OKBLUE + "INFO: " + ENDC + message_content
+        print(OKBLUE + "INFO: " + ENDC + message_content)
 
     if message_severity == MSG_DEBUG:
-        print BOLD + "DEBUG: " + ENDC + message_content
-
+        print(BOLD + "DEBUG: " + ENDC + message_content)
 
 
 def check_dir(dir_path, create_dir_en):
@@ -69,19 +68,18 @@ def check_dir(dir_path, create_dir_en):
 
         # Path exists, but is not a file
         if not os.path.isdir(dir_path):
-            print_msg(MSG_WARN, "Directory '" + dir_path \
-                                    + "' already exists, but it's not a directory.\n"
-                                    + "To continue, you will need to remove it.")
-
+            print_msg(MSG_WARN, "Directory '" + dir_path
+                      + "' already exists, but it's not a directory.\n"
+                      + "To continue, you will need to remove it.")
 
             input_ok = False
-            user_input = raw_input("Do you want to remove it now? y/n\n")
+            user_input = input("Do you want to remove it now? y/n\n")
 
             while input_ok == False:
                 if user_input == "y" or user_input == "n":
                     input_ok = True
                 else:
-                    user_input = raw_input("Invalid input. y/n: ")
+                    user_input = input("Invalid input. y/n: ")
                     input_ok = False
 
             # Remove the existing file
@@ -89,21 +87,21 @@ def check_dir(dir_path, create_dir_en):
                 print_msg(MSG_INFO, "Removing existing file...")
                 try:
                     os.remove(dir_path)
-                except OSError as e:
-                    print_msg(MSG_ERROR, "Error " + str(e[0]) + ": " + e[1])
+                except Exception as e:
+                    print_msg(MSG_ERROR, str(e))
                     return CHECK_DIR_ERROR
 
             elif user_input == "n":
                 print_msg(MSG_ERROR, "Cancelled by user")
                 return CHECK_DIR_ERROR
 
-            #Create a directory in place of the file
+            # Create a directory in place of the file
             if create_dir_en:
                 print_msg(MSG_BLUE_INFO, "Creating the directory")
                 try:
                     os.makedirs(dir_path)
-                except OSError as e:
-                    print_msg(MSG_ERROR, "Error " + str(e[0]) + ": " + e[1])
+                except Exception as e:
+                    print_msg(MSG_ERROR, str(e))
                     return CHECK_DIR_ERROR
 
                 return DIR_EXISTS
@@ -120,8 +118,8 @@ def check_dir(dir_path, create_dir_en):
             print_msg(MSG_BLUE_INFO, "Directory not found. Creating a new one.")
             try:
                 os.makedirs(dir_path)
-            except OSError as e:
-                print_msg(MSG_ERROR, "Error " + str(e[0]) + ": " + e[1])
+            except Exception as e:
+                print_msg(MSG_ERROR, str(e))
                 return CHECK_DIR_ERROR
 
             return DIR_EXISTS

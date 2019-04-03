@@ -1,6 +1,8 @@
-from helper_func import *
-from Help_note import print_help
 import sys
+
+from .Help_note import print_help
+from .helper_func import *
+
 
 def arg_parser(argv, program_argv, logging):
     """
@@ -30,8 +32,8 @@ def arg_parser(argv, program_argv, logging):
     program_argv['trace'] = False
 
     if '-D'	in argv[1:]:
-        program_argv['network_dime_x'] = int(argv[argv.index('-D')+1])
-        program_argv['network_dime_y'] = int(argv[argv.index('-D')+2])
+        program_argv['network_dime_x'] = int(argv[argv.index('-D') + 1])
+        program_argv['network_dime_y'] = int(argv[argv.index('-D') + 2])
         if program_argv['network_dime_x'] == 1 and program_argv['network_dime_y'] == 1:
             raise ValueError("You cannot build a network with 1 node!")
 
@@ -40,32 +42,32 @@ def arg_parser(argv, program_argv, logging):
 
     if '-NI' in argv[1:]:
         program_argv['NI'] = True
-        program_argv['NI_depth'] = int(argv[argv.index('-NI')+1])
+        program_argv['NI_depth'] = int(argv[argv.index('-NI') + 1])
 
     if '-vc' in argv[1:]:
         program_argv['vc'] = True
 
     if '-Rand'	in argv[1:]:
-        program_argv['rand'] = float(argv[argv.index('-Rand')+1])
+        program_argv['rand'] = float(argv[argv.index('-Rand') + 1])
         if program_argv['rand'] < 0 or program_argv['rand'] > 1:
             raise ValueError("Packet injection rate has to be between 0 and 1!")
 
     if '-BR' in argv[1:]:
-        program_argv['BR'] = float(argv[argv.index('-BR')+1])
+        program_argv['BR'] = float(argv[argv.index('-BR') + 1])
         if program_argv['BR'] < 0 or program_argv['rand'] > 1:
             raise ValueError("Packet injection rate has to be between 0 and 1!")
 
     if '-PS' in argv[1:]:
-        program_argv['PS'][0] = int(argv[argv.index('-PS')+1])
-        program_argv['PS'][1] = int(argv[argv.index('-PS')+2])
+        program_argv['PS'][0] = int(argv[argv.index('-PS') + 1])
+        program_argv['PS'][1] = int(argv[argv.index('-PS') + 2])
 
     if '-sim' in argv[1:]:
-        program_argv['sim'] = int(argv[argv.index('-sim')+1])
+        program_argv['sim'] = int(argv[argv.index('-sim') + 1])
         if program_argv['sim'] < 0:
             raise ValueError("Simulation time cannot be negative!")
 
     if '-end' in argv[1:]:
-        program_argv['end'] = int(argv[argv.index('-end')+1])
+        program_argv['end'] = int(argv[argv.index('-end') + 1])
         if program_argv['end'] < 0:
             raise ValueError("Simulation time cannot be negative!")
 
@@ -84,7 +86,7 @@ def arg_parser(argv, program_argv, logging):
     logging.info("Finished parsing program arguments")
     logging.info("Command line parameters:")
     for i in program_argv:
-        logging.info("\t" + str(i) + ": " + str(program_argv[i]))
+        logging.info("\t"  +  str(i)  +  ": "  +  str(program_argv[i]))
 
     return program_argv
 
@@ -96,5 +98,5 @@ def report_parogram_arguments(program_argv, DEBUG):
     if DEBUG:
         print_msg(MSG_DEBUG,  "Command line parameters:")
         for i in program_argv:
-            print "\t" + i + ": " + str(program_argv[i])
-        print
+            print("\t" + i + ": " + str(program_argv[i]))
+        print()

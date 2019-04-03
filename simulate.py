@@ -1,20 +1,22 @@
 #!/usr/bin/python
 # Copyright (C) 2016 Karl Janson, Siavoosh Payandeh Azad, Behrad Niazmand
 
-import os
-import sys
-import shutil
-from math import ceil
 import logging
+import os
+import shutil
+import sys
 import time
-from Scripts.include.Logger import *
-from Scripts.include.helper_func import *
-from Scripts.include.file_lists import *
-from Scripts.include.Help_note import print_help
-from Scripts.include.write_do_file import write_do_file
+from math import ceil
+
 from Scripts.include import package
 from Scripts.include.arg_parser import arg_parser, report_parogram_arguments
+from Scripts.include.file_gen import gen_network_and_tb, gen_wave_do
+from Scripts.include.file_lists import *
+from Scripts.include.Help_note import print_help
+from Scripts.include.helper_func import *
+from Scripts.include.Logger import *
 from Scripts.include.stats import statistics
+from Scripts.include.write_do_file import write_do_file
 
 try:
     from Scripts.include.viz_traffic import viz_traffic
@@ -23,7 +25,6 @@ except:
     print_msg(MSG_INFO, "Can not include the visualizer! Some library is missing. Turning off the visualization!")
     Viz = False
 
-from Scripts.include.file_gen import gen_network_and_tb, gen_wave_do
 
 """
 Main program
@@ -31,21 +32,22 @@ Main program
 def main(argv):
 
 
-    print "Project Root:", package.PROJECT_ROOT
+    print("Project Root:", package.PROJECT_ROOT)
 
     # Check if the temporary folder exists. If it does, clear it, if not, create it.
     if os.path.exists(package.SIMUL_DIR):
         try:
             shutil.rmtree(package.SIMUL_DIR)
-        except OSError as e:
-            print_msg(MSG_ERROR, "Error " + str(e[0]) + ": " + e[1])
+        except Exception as e:
+            print_msg(MSG_ERROR, str(e))
             sys.exit(1)
     try:
         os.makedirs(package.SIMUL_DIR)
         os.makedirs(package.LOG_DIR)
         os.makedirs(package.TRACE_DIR)
-    except OSError as e:
-        print_msg(MSG_ERROR, "Error " + str(e[0]) + ": " + e[1])
+        
+    except Exception as e:
+        print_msg(MSG_ERROR, str(e))
         sys.exit(1)
 
     # Just for getting a copy of the current console
@@ -76,7 +78,7 @@ def main(argv):
     try:
         write_do_file(package.program_argv, net_file_name, net_tb_file_name, wave_do_file_name, logging)
     except IOError as e:
-        print_msg(MSG_ERROR, "Generate simulate.do file: Error " + str(e[0]) + ": " + e[1])
+        print_msg(MSG_ERROR, "Generate simulate.do file: " + str(e))
         sys.exit(1)
 
     # Running modelsim
@@ -120,4 +122,7 @@ def main(argv):
     logging.info('Logging finished...')
 
 if __name__ == "__main__":
+    if sys.version_info[0] < 3:
+        raise Exception("This script is runnable only using Python 3!")
+
     main(sys.argv)
