@@ -1,6 +1,6 @@
-This repository maintains the baseline and baseline with 1 vritual channel credit-based routers from Bonfire project. You can find the Bonfire project here:
+This repository maintains the baseline and baseline with 1 vritual channel credit-based routers from Bonfire project. You can find the legacy Bonfire project (which also includes the fault tolerance mechanism) project here:
 
-https://github.com/Project-Bonfire/Bonfire
+https://github.com/Project-Bonfire/Bonfire_legacy
 
 ----------
 - The size of the network can be X.Y where X and Y are integers in [2, 127].
