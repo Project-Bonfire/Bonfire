@@ -1,5 +1,20 @@
 # Copyright (C) 2016 Siavoosh Payandeh Azad
 
+def declare_signal_4_dir(signal_name, signal_type, list_of_nodes, dirs):
+    """
+    generates a set of signals for each direction except Local in the following format:
+        signal {signal_name}_{dir}_{nodenum} ... : {signal_type};
+    where dir is a direction in set dirs, and nodenum is node number in list_of_nodes.
+    """
+    string = ""
+    for i in list_of_nodes:
+        string += "\t signal "
+        for j in dirs:
+            string += signal_name+"_"+j+"_"+str(i)+", "
+        string = string[:-2]+":"+signal_type+";\n"
+    string += "\n"
+    return string
+
 
 def declare_signals(noc_file, network_dime_x, network_dime_y, vc):
     """
@@ -10,63 +25,17 @@ def declare_signals(noc_file, network_dime_x, network_dime_y, vc):
     noc_file.write("\n\n")
     noc_file.write(
         "-- generating bulk signals. not all of them are used in the design...\n")
-
-    for i in range(0, network_dime_x * network_dime_y):
-        noc_file.write("\tsignal credit_out_N_" + str(i) + 
-                        ", credit_out_E_" + str(i) + ", credit_out_W_" + str(i)  + 
-                        ", credit_out_S_" + str(i)  +  ": std_logic;\n")
-    noc_file.write("\n")
-
-    for i in range(0, network_dime_x * network_dime_y):
-        noc_file.write("\tsignal credit_in_N_" + str(i) + 
-                        ", credit_in_E_" + str(i) + ", credit_in_W_" + str(i)  + 
-                        ", credit_in_S_" + str(i)  +  ": std_logic;\n")
-    noc_file.write("\n")
-
-    for i in range(0, network_dime_x * network_dime_y):
-        noc_file.write("\tsignal RX_N_" + str(i) + ", RX_E_" + str(i) + 
-                        ", RX_W_" + str(i) + ", RX_S_" + str(i)  + 
-                        " : std_logic_vector (DATA_WIDTH-1 downto 0);\n")
-    noc_file.write("\n")
-
-    for i in range(0, network_dime_x * network_dime_y):
-        noc_file.write("\tsignal valid_out_N_" + str(i) + ", valid_out_E_" + str(i) + 
-                        ", valid_out_W_" + str(i)  + 
-                        ", valid_out_S_" + str(i)  +  ": std_logic;\n")
-    noc_file.write("\n")
-
-    for i in range(0, network_dime_x * network_dime_y):
-        noc_file.write("\tsignal valid_in_N_" + str(i) + ", valid_in_E_" + str(i) + 
-                        ", valid_in_W_" + str(i)  + ", valid_in_S_" + 
-                        str(i)  +  ": std_logic;\n")
-    noc_file.write("\n")
-
-    for i in range(0, network_dime_x * network_dime_y):
-        noc_file.write("\tsignal TX_N_" + str(i) + ", TX_E_" + str(i) + 
-                        ", TX_W_" + str(i) + ", TX_S_" + str(i)  + 
-                        " : std_logic_vector (DATA_WIDTH-1 downto 0);\n")
+    list_of_nodes = range(network_dime_x * network_dime_y)
+    dirs =  ["N", "E", "W", "S"]
+    noc_file.write(declare_signal_4_dir("credit_out", "std_logic", list_of_nodes, dirs))
+    noc_file.write(declare_signal_4_dir("credit_in", "std_logic", list_of_nodes, dirs))
+    noc_file.write(declare_signal_4_dir("RX", "std_logic_vector (DATA_WIDTH-1 downto 0)", list_of_nodes, dirs))
+    noc_file.write(declare_signal_4_dir("valid_out", "std_logic", list_of_nodes, dirs))
+    noc_file.write(declare_signal_4_dir("valid_in", "std_logic", list_of_nodes, dirs))
+    noc_file.write(declare_signal_4_dir("TX", "std_logic_vector (DATA_WIDTH-1 downto 0)", list_of_nodes, dirs))
 
     if vc:
-        for i in range(0, network_dime_x * network_dime_y):
-            noc_file.write("\tsignal credit_out_vc_N_" + str(i) + ", credit_out_vc_E_" + 
-                            str(i) + ", credit_out_vc_W_" + str(i)  + 
-                            ", credit_out_vc_S_" + str(i)  +  ": std_logic;\n")
-        noc_file.write("\n")
-
-        for i in range(0, network_dime_x * network_dime_y):
-            noc_file.write("\tsignal credit_in_vc_N_" + str(i) + ", credit_in_vc_E_" + 
-                            str(i) + ", credit_in_vc_W_" + str(i)  + 
-                            ", credit_in_vc_S_" + str(i)  +  ": std_logic;\n")
-        noc_file.write("\n")
-
-        for i in range(0, network_dime_x * network_dime_y):
-            noc_file.write("\tsignal valid_out_vc_N_" + str(i) + ", valid_out_vc_E_" + 
-                            str(i) + ", valid_out_vc_W_" + str(i)  + 
-                            ", valid_out_vc_S_" + str(i)  +  ": std_logic;\n")
-        noc_file.write("\n")
-
-        for i in range(0, network_dime_x * network_dime_y):
-            noc_file.write("\tsignal valid_in_vc_N_" + str(i) + ", valid_in_vc_E_" + 
-                            str(i) + ", valid_in_vc_W_" + str(i)  + 
-                            ", valid_in_vc_S_" + str(i)  +  ": std_logic;\n")
-    noc_file.write("\n")
+        noc_file.write(declare_signal_4_dir("credit_out_vc", "std_logic", list_of_nodes, dirs))
+        noc_file.write(declare_signal_4_dir("credit_in_vc", "std_logic", list_of_nodes, dirs))
+        noc_file.write(declare_signal_4_dir("valid_out_vc", "std_logic", list_of_nodes, dirs))
+        noc_file.write(declare_signal_4_dir("valid_in_vc", "std_logic", list_of_nodes, dirs))
